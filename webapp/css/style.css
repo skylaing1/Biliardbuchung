@@ -1,0 +1,100 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    overflow: auto; /* Change from hidden to auto */
+}
+
+#site {
+    height: auto; /* Change from 100% to auto */
+    min-height: 100%; /* Ensure the site takes at least the full viewport height */
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+li {
+    float: right;
+}
+
+li a, li select {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    background-color: #333;
+    border: none;
+    cursor: pointer;
+}
+
+li a:hover, li select:hover {
+    background-color: #111;
+}
+
+#buttonbooking {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 20px;
+    border: none;
+    cursor: pointer;
+    width: 10%;
+}
+
+#site {
+    height: 100%;
+}
+
+#fill {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+#product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.product-card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    width: 300px; /* Increase the width */
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px; /* Set a fixed height */
+    object-fit: cover; /* Ensure the image covers the area */
+    border-radius: 10px;
+}
+
+.quantity-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.quantity-controls button {
+    padding: 5px 10px;
+    font-size: 16px;
+}
+
+quantity-controls input {
+    width: 50px;
+    text-align: center;
+}
