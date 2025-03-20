@@ -1,4 +1,31 @@
+<?php
+session_start();
 
+if ($_SESSION["benutzer_alias"] != null) {
+header("Location: index.php");
+}
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$benutzer_vorname = $_POST["name"];
+$benutzer_name = $_POST["lastname"];
+$benutzer_alias = $_POST["username"];
+$benutzer_passwort = $_POST["password"];
+$benutzer_email = $_POST["email"];
+$benutzer_telefon = $_POST["phone"];
+$link = mysqli_connect("localhost:3308", "root", "", "biliardshop")
+or exit("Keine Verbindung zu MySQL");
+$sql = "INSERT INTO benutzer (benutzer_vorname, benutzer_name, benutzer_alias, benutzer_password, email, telefon)
+VALUES ('$benutzer_vorname', '$benutzer_name', '$benutzer_alias', '$benutzer_passwort', '$benutzer_email', '$benutzer_telefon')";
+if (mysqli_query($link, $sql)) {
+echo "Benutzer erfolgreich registriert";
+}
+else {
+    echo "Fehler beim Registrieren des Benutzers: " . mysqli_error($link);
+}
+mysqli_close($link);
+}
+?>
 <html>
 <head>
     <title>Register</title>
@@ -12,13 +39,13 @@
     </ul>
     <div class="register">
         <h1>Register</h1>
-        <form action="submit_register.php" method="post">
-            <input type="text" name="name" placeholder="Name" required="required" />
-            <input type="text" name="lastname" placeholder="Last Name" required="required" />
-            <input type="text" name="username" placeholder="Username" required="required" />
+        <form action="register.php" method="post">
+            <input type="text" name="name" placeholder="Vorname" required="required" />
+            <input type="text" name="lastname" placeholder="Nachname" required="required" />
+            <input type="text" name="username" placeholder="Benutzername" required="required" />
             <input type="password" name="password" placeholder="Password" required="required" />
             <input type="email" name="email" placeholder="Email" required="required" />
-            <input type="tel" name="phone" placeholder="Phone Number" required="required" />
+            <input type="tel" name="phone" placeholder="Telefonnummer" required="required" />
             <button type="submit" class="btn btn-primary btn-block btn-large">Register</button>
         </form>
     </div>

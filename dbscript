@@ -1,0 +1,66 @@
+DROP DATABASE IF EXISTS Biliardshop;
+CREATE DATABASE IF NOT EXISTS Biliardshop;
+USE Biliardshop;
+
+CREATE TABLE benutzer (
+	benutzer_id INT AUTO_INCREMENT,
+    benutzer_vorname VARCHAR(30) NOT NULL,
+    benutzer_name VARCHAR(30) NOT NULL,
+	benutzer_alias VARCHAR(30) UNIQUE NOT NULL,
+    benutzer_password VARCHAR(50) NOT NULL,
+    email VARCHAR(70) NOT NULL UNIQUE,
+    telefon VARCHAR(30) NOT NULL UNIQUE,
+	PRIMARY KEY(benutzer_id)
+);
+
+CREATE TABLE filiale (
+	filiale_id INT AUTO_INCREMENT,
+    bezeichnung VARCHAR(50),
+    ort VARCHAR(30),
+    PRIMARY KEY (filiale_id)
+);
+
+CREATE TABLE tisch (
+	tisch_id INT AUTO_INCREMENT,
+    filiale_id INT NOT NULL,
+    preis_pro_stunde FLOAT NOT NULL,
+
+
+    PRIMARY KEY (tisch_id),
+	FOREIGN KEY (filiale_id) REFERENCES filiale(filiale_id)
+);
+
+	CREATE TABLE essen_trinken (
+		essen_trinken_id INT AUTO_INCREMENT,
+		bezeichnung VARCHAR(30) NOT NULL UNIQUE,
+		preis FLOAT NOT NULL,
+
+		PRIMARY KEY (essen_trinken_id)
+	);
+
+CREATE TABLE buchung (
+	buchung_id INT AUTO_INCREMENT,
+    tisch_id INT NOT NULL,
+    datum DATE NOT NULL,
+    startzeit TIME NOT NULL,
+    endzeit TIME NOT NULL,
+    benutzer_id INT NOT NULL,
+    tisch_preis FLOAT NOT NULL,
+
+
+    PRIMARY KEY (buchung_id),
+    FOREIGN KEY (tisch_id) REFERENCES tisch(tisch_id),
+    FOREIGN KEY (benutzer_id) REFERENCES benutzer(benutzer_id)
+);
+
+CREATE TABLE buchungdetails (
+	buchungdetails_id INT AUTO_INCREMENT,
+    buchung_id INT NOT NULL,
+    essen_trinken_id INT NOT NULL,
+    anzahl INT NOT NULL,
+    einzelpreis FLOAT NOT NULL,
+
+    PRIMARY KEY (buchungdetails_id),
+    FOREIGN KEY (buchung_id) REFERENCES buchung(buchung_id),
+    FOREIGN KEY (essen_trinken_id) REFERENCES essen_trinken(essen_trinken_id)
+);

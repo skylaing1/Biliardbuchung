@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $host = "localhost:3308";
 $user = "root";
 $pw = "";
@@ -22,6 +24,19 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 
 mysqli_close($link);
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $quantities = $_POST['quantity'];
+    $_SESSION['quantities'] = $quantities;
+    //add zu url filiale bookin.php?filiale=1
+    header("Location: booking.php?filiale=" . $_POST['filaleSelect']);
+    exit();
+
+
+
+
+}
 ?>
 
 <html>
@@ -35,8 +50,9 @@ mysqli_close($link);
     <ul>
         <li><a href="login.php">Login</a></li>
         <li><a href="register.php">Registrieren</a></li>
+        <form method="post">
         <li>
-            <select id="filialle-select" name="filialle">
+            <select id="filale-select" name="filaleSelect">
                 <?php foreach ($filialen as $filiale): ?>
                     <option value="<?php echo $filiale['filiale_id']; ?>">
                         <?php echo $filiale['bezeichnung']; ?>
@@ -47,8 +63,8 @@ mysqli_close($link);
 
     </ul>
     <div>
-        <a href="booking.php">
-            <button id="buttonbooking" type="button" class="btn btn-primary btn-block btn-large">Buchung</button>
+        <a>
+            <button id="buttonbooking" type="submit" class="btn btn-primary btn-block btn-large">Buchung</button>
         </a>
     </div>
 
@@ -59,14 +75,14 @@ mysqli_close($link);
                 <h2><?php echo $item['bezeichnung']; ?></h2>
                 <p>Preis: €<?php echo number_format($item['preis'], 2); ?></p>
                 <div class="quantity-controls">
-                    <button class="decrease" onclick="this.nextElementSibling.stepDown()">-</button>
-                    <input type="number" value="0" min="0">
-                    <button class="increase" onclick="this.previousElementSibling.stepUp()">+</button>
+                    <button type="button" class="decrease" onclick="this.nextElementSibling.stepDown()">-</button>
+                    <input name="quantity[<?php echo $item['essen_trinken_id']; ?>]" type="number" value="0" min="0">
+                    <button type="button" class="increase" onclick="this.previousElementSibling.stepUp()">+</button>
                 </div>
             </div>
         <?php endforeach; ?>
     </div>
-
+    </form>
 </div>
 </body>
 </html>
