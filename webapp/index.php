@@ -1,7 +1,12 @@
 <?php
 session_start();
 
-$host = "localhost:3308";
+if (!isset($_SESSION["benutzer_alias"])) {
+    header("Location: login.php");
+    exit();
+}
+
+$host = "localhost:3306";
 $user = "root";
 $pw = "";
 $db = "biliardshop";
@@ -27,8 +32,23 @@ mysqli_close($link);
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $quantities = $_POST['quantity'];
-    $_SESSION['quantities'] = $quantities;
+
+    //speicher die artikel in der session, speichere nur artikel die eine menge größer 0 haben
+
+
+    $_SESSION['quantities'] = [];
+    foreach ($_POST['quantity'] as $key => $value) {
+        if ($value > 0) {
+            $_SESSION['quantities'][$key] = $value;
+        }
+    }
+
+
+
+
+
+
+
     //add zu url filiale bookin.php?filiale=1
     header("Location: booking.php?filiale=" . $_POST['filaleSelect']);
     exit();
@@ -48,8 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 <div id="site">
     <ul>
-        <li><a href="login.php">Login</a></li>
-        <li><a href="register.php">Registrieren</a></li>
+        <li><a href="logout.php">Logout</a></li>
         <form method="post">
         <li>
             <select id="filale-select" name="filaleSelect">

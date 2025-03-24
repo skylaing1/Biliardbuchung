@@ -1,21 +1,22 @@
 <?php
 session_start();
 if (isset($_SESSION["benutzer_alias"])) {
-    header("Location: login.php");
+    header("Location: index.php");
     exit();
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $benutzer_alias = $_POST["username"];
     $benutzer_passwort = $_POST["password"];
 
-    $link = mysqli_connect("localhost:3308", "root", "", "biliardshop")
+    $link = mysqli_connect("localhost:3306", "root", "", "biliardshop")
     or exit("Keine Verbindung zu MySQL");
 
     $sql = "SELECT * FROM benutzer WHERE benutzer_alias = '$benutzer_alias' AND benutzer_password = '$benutzer_passwort'";
     $result = mysqli_query($link, $sql);
     if (mysqli_num_rows($result) == 1) {
         $_SESSION["benutzer_alias"] = $benutzer_alias;
-        header("Location: booking.php");
+        $_SESSION["benutzer_id"] = mysqli_fetch_assoc($result)["benutzer_id"];
+        header("Location: index.php");
         exit();
     }
     else {
@@ -28,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
 <head>
     <title>Billiard Buchung</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/credentials.css">
 </head>
 <body>
     <div class="login">

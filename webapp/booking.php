@@ -4,101 +4,103 @@ if (!isset($_SESSION["benutzer_alias"])) {
     header("Location: login.php");
     exit();
 }
-    $link = mysqli_connect("localhost:3308", "root", "", "biliardshop")
-    or exit("Keine Verbindung zu MySQL");
-    $sql = "SELECT * from essen_trinken";
-    $result = mysqli_query($link, $sql);
-    $artikel = [];
-    while ($row = mysqli_fetch_assoc($result)) {
-        $artikel[] = $row;
+
+$link = mysqli_connect("localhost:3306", "root", "", "biliardshop")
+or exit("Keine Verbindung zu MySQL");
+
+$filiale = $_GET['filiale'] ?? 1; // Falls keine Filiale gewählt wurde, Standardwert setzen
+$tisch_frei = false;
+$meldung = "";
+$preis = 0;
+$tisch_id = null;
+
+// Wenn das Formular abgesendet wurde, prüfen wir die Tischverfügbarkeit
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $start = $_POST['start-time'];
+    $end = $_POST['end-time'];
+
+    if ($start && $end) {
+        // Prüfe, ob ein Tisch frei ist vergiss datum nicht
+        $sql = "SELECT tisch.tisch_id, tisch.preis_pro_stunde FROM tisch
+        WHERE tisch.filiale_id = ?
+        AND tisch.tisch_id NOT IN (
+            SELECT buchung.tisch_id FROM buchung 
+            WHERE (
+                (buchung.startzeit < ? AND buchung.endzeit > ?) OR
+                (buchung.startzeit >= ? AND buchung.startzeit < ?)
+            ) AND buchung.datum = CURDATE()
+        ) LIMIT 1";
+
+        $stmt = mysqli_prepare($link, $sql);
+        mysqli_stmt_bind_param($stmt, "issss", $filiale, $end, $start, $start, $end);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
+
+        if ($row) {
+            $tisch_frei = true;
+            $tisch_id = $row['tisch_id'];
+            $preis_pro_stunde = $row['preis_pro_stunde'];
+
+            // Zeitdifferenz berechnen
+            $start_datetime = new DateTime($start);
+            $end_datetime = new DateTime($end);
+            $stunden = $start_datetime->diff($end_datetime)->h; // Nur volle Stunden
+
+            $preis = $stunden * $preis_pro_stunde;
+            $meldung = "<p style='color: green;'>Ein Tisch ist frei! Gesamtkosten: <b>$preis €</b></p>";
+        } else {
+            $meldung = "<p style='color: red;'>Kein Tisch verfügbar im gewählten Zeitraum!</p>";
+        }
+
+        mysqli_stmt_close($stmt);
     }
-
-    $filiale = $_GET['filiale'];
-
-$sql = "SELECT startzeit,endzeit,tisch.tisch_id,preis_pro_stunde from buchung,tisch,filiale where buchung.tisch_id=tisch.tisch_id and tisch.filiale_id=filiale.filiale_id and filiale.filiale_id=$filiale";
-    $result = mysqli_query($link, $sql);
-    $buchungen = [];
-    while ($row = mysqli_fetch_assoc($result)) {
-        $buchungen[] = $row;
-    }
-
-
-
-
-
+}
 
 ?>
 <html>
 <head>
     <title>Buchung</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/buchung.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <div id="site">
     <ul>
-        <li><a href="login.php">Login</a></li>
+        <li><a href="index.php">Home</a></li>
+        <li><a href="logout.php">Logout</a></li>
     </ul>
     <div id="booking-form">
         <h1>Buchung</h1>
-        <form action="submit_booking.php" method="post">
-            <input type="time" name="start-time" id="start-time" list="time-list-start" required="required" />
+        <form action="" method="post">
+            <label for="start-time">Startzeit:</label>
+            <input type="time" name="start-time" step="3600" id="start-time" required="required" />
 
-            <datalist id="time-list-start" >
-                <option id="10start" name="10start"  value="10:00" datatype="time">
-                <option id="11start" name="11start" value="11:00" datatype="time">
-                <option id="12start" name="12start" value="12:00" datatype="time">
-                <option id="13start" name="13start" value="13:00" datatype="time">
-                <option id="14start" name="14start" value="14:00" datatype="time">
-                <option id="15start" name="15start" value="15:00" datatype="time">
-                <option id="16start" name="16start" value="16:00" datatype="time">
-                <option id="17start" name="17start" value="17:00" datatype="time">
-                <option id="18start" name="18start" value="18:00" datatype="time">
-                <option id="19start" name="19start" value="19:00" datatype="time">
-                <option id="20start" name="20start" value="20:00" datatype="time">
-            </datalist>
+            <label for="end-time">Endzeit:</label>
+            <input type="time" name="end-time" step="3600" id="end-time" required="required" />
 
-            <input type="time" name="end-time" id="end-time" list="time-list-end" required="required" />
-
-            <datalist id="time-list-end" >
-                <option id="11end" name="11end" value="11:00" datatype="time">
-                <option id="12end" name="12end" value="12:00" datatype="time">
-                <option id="13end" name="13end" value="13:00" datatype="time">
-                <option id="14end" name="14end" value="14:00" datatype="time">
-                <option id="15end" name="15end" value="15:00" datatype="time">
-                <option id="16end" name="16end" value="16:00" datatype="time">
-                <option id="17end" name="17end" value="17:00" datatype="time">
-                <option id="18end" name="18end" value="18:00" datatype="time">
-                <option id="19end" name="19end" value="19:00" datatype="time">
-                <option id="20end" name="20end" value="20:00" datatype="time">
-                <option id="21end" name="21end" value="21:00" datatype="time">
-            </datalist>
-
-
-
-
-
-            <h2>Produkte im Warenkorb</h2>
-            <div id="products-ordered">
-                <?php
-                if (isset($_SESSION['quantities'])) {
-                    $quantities = $_SESSION['quantities'];
-                    foreach ($quantities as $key => $quantity) {
-                        if ($quantity == 0) {
-                            continue;
-                        }
-                        echo "<p>Artikel: " . $artikel[$key]['bezeichnung'] . " | Menge: " . $quantity . "</p>";
-                    }
-
-                }
-
-                ?>
-            </div>
-
-            <h2></h2>
-
-            <button type="submit" class="btn btn-primary btn-block btn-large">Order</button>
+            <button type="submit" class="btn btn-primary btn-block btn-large">Verfügbarkeit prüfen</button>
         </form>
+
+        <!-- Ergebnis der Überprüfung -->
+        <div id="availability">
+            <?php echo $meldung; ?>
+        </div>
+
+        <!-- Weiter zum Warenkorb-Button order.php -->
+        <?php if ($tisch_frei): ?>
+            <a href="order.php?filiale=<?php echo $filiale; ?>">
+                <?php
+                // Tisch in der Session speichern
+                $_SESSION['tisch_id'] = $tisch_id;
+                $_SESSION['tisch_preis'] = $preis;
+                $_SESSION['startzeit'] = $_POST['start-time'];
+                $_SESSION['endzeit'] = $_POST['end-time'];
+                ?>
+                <button class="btn btn-primary btn-block btn-large">Weiter zum Warenkorb</button>
+            </a>
+        <?php endif; ?>
     </div>
 </div>
 </body>

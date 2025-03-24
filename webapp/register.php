@@ -1,8 +1,9 @@
 <?php
 session_start();
 
-if ($_SESSION["benutzer_alias"] != null) {
-header("Location: index.php");
+if (isset($_SESSION["benutzer_alias"])) {
+    header("Location: index.php");
+    exit();
 }
 
 
@@ -13,7 +14,7 @@ $benutzer_alias = $_POST["username"];
 $benutzer_passwort = $_POST["password"];
 $benutzer_email = $_POST["email"];
 $benutzer_telefon = $_POST["phone"];
-$link = mysqli_connect("localhost:3308", "root", "", "biliardshop")
+$link = mysqli_connect("localhost:3306", "root", "", "biliardshop")
 or exit("Keine Verbindung zu MySQL");
 $sql = "INSERT INTO benutzer (benutzer_vorname, benutzer_name, benutzer_alias, benutzer_password, email, telefon)
 VALUES ('$benutzer_vorname', '$benutzer_name', '$benutzer_alias', '$benutzer_passwort', '$benutzer_email', '$benutzer_telefon')";
@@ -29,7 +30,7 @@ mysqli_close($link);
 <html>
 <head>
     <title>Register</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/credentials.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>

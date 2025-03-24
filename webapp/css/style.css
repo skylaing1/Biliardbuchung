@@ -1,12 +1,14 @@
 html, body {
     margin: 0;
     height: 100%;
-    overflow: auto; /* Change from hidden to auto */
+    overflow: auto;
 }
 
+
+
 #site {
-    height: auto; /* Change from 100% to auto */
-    min-height: 100%; /* Ensure the site takes at least the full viewport height */
+    height: auto;
+    min-height: 100%;
 }
 ul {
     list-style-type: none;
@@ -71,13 +73,13 @@ li a:hover, li select:hover {
     border-radius: 10px;
     padding: 20px;
     text-align: center;
-    width: 300px; /* Increase the width */
+    width: 300px;
 }
 
 .product-card img {
     width: 100%;
-    height: 200px; /* Set a fixed height */
-    object-fit: cover; /* Ensure the image covers the area */
+    height: 200px;
+    object-fit: cover;
     border-radius: 10px;
 }
 
