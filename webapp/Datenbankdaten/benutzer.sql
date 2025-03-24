@@ -1,0 +1,1 @@
+INSERT INTO biliardshop.benutzer (benutzer_id, benutzer_vorname, benutzer_name, benutzer_alias, benutzer_password, email, telefon) VALUES (1, 'Cuma', 'Erarslan', 'Cuma.Erarslan', 'test1234', 'cumaerarslan@gmail.com', '017662326175');

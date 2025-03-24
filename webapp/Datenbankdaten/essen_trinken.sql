@@ -1,0 +1,9 @@
+INSERT INTO biliardshop.essen_trinken (essen_trinken_id, bezeichnung, preis) VALUES (1, 'Pizza', 9);
+INSERT INTO biliardshop.essen_trinken (essen_trinken_id, bezeichnung, preis) VALUES (2, 'Chips', 6);
+INSERT INTO biliardshop.essen_trinken (essen_trinken_id, bezeichnung, preis) VALUES (3, 'Pommes', 3);
+INSERT INTO biliardshop.essen_trinken (essen_trinken_id, bezeichnung, preis) VALUES (4, 'Tiramisu', 4.5);
+INSERT INTO biliardshop.essen_trinken (essen_trinken_id, bezeichnung, preis) VALUES (5, 'Mineralwasser', 2);
+INSERT INTO biliardshop.essen_trinken (essen_trinken_id, bezeichnung, preis) VALUES (6, 'Cola', 2.5);
+INSERT INTO biliardshop.essen_trinken (essen_trinken_id, bezeichnung, preis) VALUES (7, 'Fanta', 3);
+INSERT INTO biliardshop.essen_trinken (essen_trinken_id, bezeichnung, preis) VALUES (8, 'Apfelsaft', 2.5);
+INSERT INTO biliardshop.essen_trinken (essen_trinken_id, bezeichnung, preis) VALUES (9, 'Espresso', 2.5);

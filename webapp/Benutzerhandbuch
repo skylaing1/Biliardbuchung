@@ -1,0 +1,69 @@
+Benutzerhandbuch
+1. Einleitung
+Dieses Benutzerhandbuch bietet eine Übersicht über die Nutzung der Billiard Buchungs-Webanwendung. Es beschreibt die notwendigen Informationen zur Anmeldung und Registrierung sowie die Hauptfunktionen der Anwendung.
+
+
+2. Anmelden
+Benutzername und Kennwort:
+
+
+Benutzername: Der Benutzername, den Sie bei der Registrierung angegeben haben.
+Kennwort: Das Kennwort, das Sie bei der Registrierung festgelegt haben.
+Anmeldeprozess:
+
+
+Öffnen Sie die login.php Seite.
+Geben Sie Ihren Benutzernamen und Ihr Kennwort ein.
+Klicken Sie auf den Button "Let me in.".
+3. Registrierung
+Falls Sie noch kein Konto haben, können Sie sich registrieren.
+
+Registrierungsprozess:
+
+
+Öffnen Sie die register.php Seite.
+Füllen Sie das Formular mit den folgenden Informationen aus:
+Vorname
+Nachname
+Benutzername
+Kennwort
+Email
+Telefonnummer
+Klicken Sie auf den Button "Register".
+4. Startseite
+Nach der Anmeldung gelangen Sie zur Startseite (index.php).
+
+Funktionen der Startseite:
+
+
+Filiale auswählen: Wählen Sie eine Filiale aus dem Dropdown-Menü.
+Buchung: Klicken Sie auf den Button "Buchung", um zur Buchungsseite zu gelangen.
+Produkte: Wählen Sie die gewünschten Produkte aus und geben Sie die Menge an.
+5. Buchung
+Auf der Buchungsseite (booking.php) können Sie einen Tisch buchen.
+
+Buchungsprozess:
+
+
+Wählen Sie die Start- und Endzeit der Buchung.
+Klicken Sie auf den Button "Verfügbarkeit prüfen".
+Falls ein Tisch verfügbar ist, wird eine Bestätigung angezeigt.
+Klicken Sie auf den Button "Weiter zum Warenkorb", um zur Bestellseite zu gelangen.
+6. Bestellung
+Auf der Bestellseite (order.php) können Sie Ihre Bestellung abschließen.
+
+Bestellprozess:
+
+
+Überprüfen Sie die Zusammenfassung Ihrer Bestellung.
+Klicken Sie auf den Button "Bestellung Abschließen", um die Bestellung zu speichern.
+7. Abmelden
+Um sich abzumelden, klicken Sie auf den "Logout" Link, der Sie zur logout.php Seite führt. Dies beendet Ihre Sitzung und leitet Sie zur Anmeldeseite weiter.
+
+
+8. Leistungsmerkmale
+Benutzerverwaltung: Registrierung und Anmeldung von Benutzern.
+Filialverwaltung: Auswahl der Filiale für die Buchung.
+Produktverwaltung: Auswahl und Verwaltung von Produkten.
+Buchungssystem: Überprüfung der Tischverfügbarkeit und Buchung.
+Bestellsystem: Zusammenfassung und Abschluss der Bestellung.
